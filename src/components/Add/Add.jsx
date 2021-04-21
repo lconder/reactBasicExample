@@ -10,11 +10,13 @@ import {
     Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import useForm from './useForm';
+import validate from './validator';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
       padding: theme.spacing(6),
-      margin: "3% auto 0 auto",
+      margin: "3% auto 3% auto",
       maxWidth: "800px",
       justifyContent: "center",
     },
@@ -30,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Add = () => {
     const classes = useStyles();
+    const { handleChange, handleSubmit, values, errors } = useForm(validate);
+
+    async function create() {}
+
     return (
         <Paper elevation={6} className={classes.paper}>
             <Box p={1}>
@@ -38,7 +44,7 @@ const Add = () => {
                     Nuevo Videojuego
                 </Box>
             </Typography>
-                <form>
+                <form noValidate onSubmit={handleSubmit}>
                     <Grid container>
                         <Grid item xs={12} md={12}>
                             <div className={classes.inputContainer}>
@@ -46,6 +52,8 @@ const Add = () => {
                                     id="name"
                                     name="name"
                                     label="Nombre"
+                                    onChange={handleChange}
+                                    value={values.name}
                                 />
                             </div>
                             <div className={classes.inputContainer}>
@@ -53,6 +61,9 @@ const Add = () => {
                                 <Select
                                     labelId="category-label"
                                     id="category"
+                                    name="category"
+                                    onChange={handleChange}
+                                    value={values.category}
                                 >
                                     <MenuItem value={1}>Categoría 1</MenuItem>
                                     <MenuItem value={2}>Categoría 2</MenuItem>
@@ -65,10 +76,12 @@ const Add = () => {
                                     name="price"
                                     label="Precio"
                                     type="number"
+                                    onChange={handleChange}
+                                    value={values.price}
                                 />
                             </div>
                             <div className={classes.inputContainer}>
-                                <Button variant="contained" color="primary">
+                                <Button type="submit" variant="contained" color="primary">
                                     Agregar
                                 </Button>
                             </div>
