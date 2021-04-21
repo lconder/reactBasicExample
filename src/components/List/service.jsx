@@ -7,5 +7,6 @@ export const getVideogames = async () => {
         return response.data.items;
     } catch(error) {
         console.error(error);
+        return [];
     }
 }
