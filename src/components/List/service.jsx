@@ -3,9 +3,8 @@ import { url } from '../../constants';
 
 export const getVideogames = async () => {
     try {
-        return [];
-        /*const response = await axios.get(`${url}/videogames`);
-        return response.data.items;*/
+        const response = await axios.get(`${url}/videogames`);
+        return response.data.items;
     } catch(error) {
         console.error(error);
         return [];
