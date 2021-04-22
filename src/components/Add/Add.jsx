@@ -12,6 +12,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import useForm from './useForm';
 import validate from './validator';
+import { save } from './service';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,13 +29,21 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       margin: "10% 0 0 0",
     },
+    error : {
+        color: "#ff0000"
+    }
   }));
 
 const Add = () => {
     const classes = useStyles();
-    const { handleChange, handleSubmit, values, errors } = useForm(validate);
+    const { handleChange, handleSubmit, values, errors } = useForm(
+        () => create(),
+        validate
+    );
 
-    async function create() {}
+    async function create() {
+        await save(values);
+    }
 
     return (
         <Paper elevation={6} className={classes.paper}>
@@ -55,6 +64,9 @@ const Add = () => {
                                     onChange={handleChange}
                                     value={values.name}
                                 />
+                                { errors && errors.error_name && 
+                                    (<p className={classes.error}>{errors.error_name}</p>)
+                                }
                             </div>
                             <div className={classes.inputContainer}>
                                 <InputLabel id="category-label">Categoría</InputLabel>
@@ -69,6 +81,9 @@ const Add = () => {
                                     <MenuItem value={2}>Categoría 2</MenuItem>
                                     <MenuItem value={3}>Categoría 3</MenuItem>
                                 </Select>
+                                { errors && errors.error_category && 
+                                    (<p className={classes.error}>{errors.error_category}</p>)
+                                }
                             </div>
                             <div className={classes.inputContainer}>
                                 <TextField
@@ -79,6 +94,9 @@ const Add = () => {
                                     onChange={handleChange}
                                     value={values.price}
                                 />
+                                { errors && errors.error_price && 
+                                    (<p className={classes.error}>{errors.error_price}</p>)
+                                }
                             </div>
                             <div className={classes.inputContainer}>
                                 <Button type="submit" variant="contained" color="primary">

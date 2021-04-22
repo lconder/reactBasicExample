@@ -3,7 +3,7 @@ import {
     useState,
 } from 'react';
 
-const useForm = (validate) => {
+const useForm = (callback, validate) => {
 
     const [values, setValues] = useState({
         name: '',
@@ -23,9 +23,15 @@ const useForm = (validate) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log("Submit");
-        validate(values);
+        setErrors(validate(values));
+        setIsSubmitting(true);
     }
+
+    useEffect(() => {
+        if(Object.keys(errors).length===0 && isSubmitting) {
+            callback();
+        }
+    }, [errors])
 
     return {
         errors,
