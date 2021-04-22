@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { url } from '../../constants';
 
-export const getVideogames = async () => {
+export const save = async (data) => {
     try {
-        const response = await axios.get(`${url}/videogames`);
-        return response.data.items;
-    } catch(error) {
-        console.error(error);
-        return [];
+        const res = await axios.post(`${url}/videogames`, JSON.stringify(data));
+        console.log(res.data);
+        return res.data;
+    } catch(e) {
+        console.error(e);
+        return false;
     }
 }
